@@ -368,7 +368,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 56px;font-family:var(--mo
   <!-- ══════ 01 ══════ -->
   <section id="ask">
     <div class="sec-head reveal"><span class="sec-no">01</span><h2>Ask anything</h2></div>
-    <p class="sub reveal">An AI tutor that explains and solves step by step, tuned to the Class 10 NCERT syllabus. Paste your OpenRouter key once &mdash; it stays in this tab and goes nowhere except OpenRouter.</p>
+    <p class="sub reveal" id="askSub">An AI tutor that explains and solves step by step, tuned to the Class 10 NCERT syllabus. Type a doubt, or tap Photo and snap the question straight out of your book.</p>
 
     <div class="keys reveal" id="keyRow">
       <div>
@@ -652,15 +652,24 @@ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && innerWidth 
 /* ═══════════════ 01 · AI TUTOR ═══════════════ */
 
 /* ┌──────────────────────────────────────────────────────────────┐
-   │  PASTE YOUR WORKER URL BETWEEN THE QUOTES BELOW.             │
-   │  Leave it empty and the site falls back to asking each       │
-   │  visitor for their own key.                                  │
-   │  e.g. const API_BASE = "https://study-desk.rijul.workers.dev";│
+   │  API_BASE — the one line that switches modes.                │
+   │                                                              │
+   │  ""        → each visitor pastes their own OpenRouter key    │
+   │              (works right now, no backend needed)            │
+   │  a URL     → the Worker holds the key, visitors just ask     │
+   │                                                              │
+   │  Yours, for when the Worker secret is sorted:                │
+   │  "https://study-desk-api.rijulkumar639.workers.dev"          │
    └──────────────────────────────────────────────────────────────┘ */
-const API_BASE = "https://study-desk-api.rijulkumar639.workers.dev";
+const API_BASE = "";
 
 const useProxy = API_BASE.trim().length > 0;
-if(useProxy) document.getElementById('keyRow').style.display = 'none';
+if(useProxy){
+  document.getElementById('keyRow').style.display = 'none';
+}else{
+  document.getElementById('askSub').textContent +=
+    ' Paste your OpenRouter key below — it stays in this tab and goes nowhere except OpenRouter.';
+}
 
 const SYSTEM_PROMPT =
   "You are a patient tutor for an Indian Class 10 student following the NCERT syllabus (CBSE / HP Board). " +
@@ -1126,6 +1135,9 @@ document.getElementById('newQuote').addEventListener('click', () => {
   }, 300);
 });
 setQuote();
+</script>
+</body>
+</html>
 </script>
 </body>
 </html>
